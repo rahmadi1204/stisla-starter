@@ -23,13 +23,16 @@ class RoleSeeder extends Seeder
         $devAccess = Permission::updateOrCreate(['name' => 'dev access']);
         $suAccess = Permission::updateOrCreate(['name' => 'superadmin access']);
         $adminAccess = Permission::updateOrCreate(['name' => 'admin access']);
+        $logAccess = Permission::updateOrCreate(['name' => 'log access']);
+        $databaseAccess = Permission::updateOrCreate(['name' => 'database access']);
+        $databaseChange = Permission::updateOrCreate(['name' => 'database change']);
+        $databaseDelete = Permission::updateOrCreate(['name' => 'database delete']);
         $userAccess = Permission::updateOrCreate(['name' => 'user access']);
-        $userCreate = Permission::updateOrCreate(['name' => 'user create']);
-        $userUpdate = Permission::updateOrCreate(['name' => 'user update']);
         $userChange = Permission::updateOrCreate(['name' => 'user change']);
         $userDelete = Permission::updateOrCreate(['name' => 'user delete']);
         $roleAccess = Permission::updateOrCreate(['name' => 'role access']);
         $roleChange = Permission::updateOrCreate(['name' => 'role change']);
+        $roleDelete = Permission::updateOrCreate(['name' => 'role delete']);
 
         $devRole = Role::updateOrCreate(['name' => 'developer']);
         $suRole = Role::updateOrCreate(['name' => 'superadmin']);
@@ -43,30 +46,30 @@ class RoleSeeder extends Seeder
             $devAccess,
             $suAccess,
             $adminAccess,
+            $logAccess,
+            $databaseAccess,
+            $databaseChange,
+            $databaseDelete,
             $userAccess,
-            $userCreate,
-            $userUpdate,
             $userChange,
             $userDelete,
             $roleAccess,
             $roleChange,
+            $roleDelete,
+
         ]);
         $suRole->syncPermissions([
             $suAccess,
             $adminAccess,
+            $databaseAccess,
             $userAccess,
-            $userAccess,
-            $userCreate,
-            $userUpdate,
+            $userChange,
             $roleAccess,
             $roleChange,
         ]);
         $adminRole->syncPermissions([
             $adminAccess,
             $userAccess,
-            $userAccess,
-            $userCreate,
-            $userUpdate,
         ]);
     }
 }

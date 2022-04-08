@@ -70,14 +70,14 @@
                             </div>
                         </form>
 
-                        <div class="text-center mt-5 text-small">
+                        {{-- <div class="text-center mt-5 text-small">
                             Copyright &copy; {{ config('app.name') }}. Made with 💙 by Stisla
                             <div class="mt-2">
                                 <a href="#">Privacy Policy</a>
                                 <div class="bullet"></div>
                                 <a href="#">Terms of Service</a>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
                 <div class="col-lg-8 col-12 order-lg-2 order-1 min-vh-100 background-walk-y position-relative overlay-gradient-bottom"

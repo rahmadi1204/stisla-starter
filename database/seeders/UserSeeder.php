@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Haruncpi\LaravelIdGenerator\IdGenerator;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -14,8 +15,12 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
+        $id = IdGenerator::generate(['table' => 'users', 'field' => 'uid', 'length' => 6, 'prefix' => 'USR']);
+        //output: P00001
+
         DB::table('users')->insert([
             [
+                'uid' => $id,
                 'code' => 'developer',
                 'name' => 'developer',
                 'username' => 'dev',
@@ -25,6 +30,7 @@ class UserSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
+                'uid' => 'USR002',
                 'code' => 'superadmin',
                 'name' => 'superadmin',
                 'username' => 'superadmin',
@@ -34,6 +40,7 @@ class UserSeeder extends Seeder
                 'updated_at' => now(),
             ],
             [
+                'uid' => 'USR003',
                 'code' => 'admin',
                 'name' => 'admin',
                 'username' => 'admin',

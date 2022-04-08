@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Data\UserController;
+use App\Http\Controllers\Page\DatabaseController;
 use App\Http\Controllers\Page\LogController;
 use App\Http\Controllers\Page\RoleController;
 use Illuminate\Support\Facades\Route;
@@ -29,15 +30,24 @@ Route::middleware('auth')->group(function () {
     Route::get('/', function () {
         return redirect('/dashboard');
     });
-    Route::get('log', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index'])->name('log');
+    Route::get('/log', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index'])->name('log');
     Route::get('/logs', [LogController::class, 'index'])->name('logs');
-    Route::controller(DashboardController::class)->group(function () {
-        Route::get('/dashboard', 'index')->name('dashboard');
-    });
+
     Route::controller(RoleController::class)->group(function () {
         Route::get('/roles', 'index')->name('role.index');
-        Route::get('/roles/add', 'add')->name('role.add');
-        Route::get('/roles/remove', 'remove')->name('role.remove');
+        Route::get('/roles-add', 'add')->name('role.add');
+        Route::get('/roles-remove', 'remove')->name('role.remove');
+    });
+    Route::controller(DatabaseController::class)->group(function () {
+        Route::get('/databases', 'index')->name('database.index');
+        Route::get('/databases-import', 'import')->name('database.import');
+        Route::get('/databases-download/{id}', 'download')->name('database.download');
+        Route::get('/databases-backup', 'backup')->name('database.backup');
+        Route::get('/databases-destroy', 'destroy')->name('database.backup');
+    });
+
+    Route::controller(DashboardController::class)->group(function () {
+        Route::get('/dashboard', 'index')->name('dashboard.index');
     });
     Route::controller(UserController::class)->group(function () {
         Route::get('/users', 'index')->name('user.index');

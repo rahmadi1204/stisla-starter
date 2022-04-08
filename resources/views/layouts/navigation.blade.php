@@ -83,7 +83,7 @@
                 <div class="dropdown-list-content dropdown-list-message">
                     <a href="#" class="dropdown-item dropdown-item-unread">
                         <div class="dropdown-item-avatar">
-                            <img alt="image" src="{{ asset('/stisla') }}/assets/img/avatar/avatar-1.png"
+                            <img alt="image" src="{{ asset('/stisla') }}/assets/img/avatar/avatar-2.png"
                                 class="rounded-circle">
                             <div class="is-online"></div>
                         </div>
@@ -206,8 +206,12 @@
         </li>
         <li class="dropdown"><a href="#" data-toggle="dropdown"
                 class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-                <img alt="image" src="{{ asset('/stisla') }}/assets/img/avatar/avatar-1.png"
-                    class="rounded-circle mr-1">
+                <img alt="image"
+                    src="
+                    @if (auth()->user()->img == 'no-image.png') {{ asset('/stisla/assets/img/avatar/avatar-1.png') }}
+                @else
+                {{ asset('/storage/images/' . auth()->user()->img) }} @endif"
+                    class="    rounded-circle mr-1">
                 <div class="d-sm-none d-lg-inline-block">Hi, {{ ucwords(auth()->user()->name) }}</div>
             </a>
             <div class="dropdown-menu dropdown-menu-right">

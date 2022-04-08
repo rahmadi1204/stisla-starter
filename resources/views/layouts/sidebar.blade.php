@@ -12,9 +12,10 @@
             <li class="nav-item dropdown">
                 <a href="#" class="nav-link has-dropdown"><i class="fas fa-desktop"></i><span>Dashboard</span></a>
                 <ul class="dropdown-menu">
-                    <li><a class="nav-link" href="{{ url('/dashboard') }}"><i
+                    <li><a class="nav-link" href="{{ route('dashboard.index') }}"><i
                                 class="fas fa-chalkboard"></i>Dashboard 1</a></li>
-                    <li><a class="nav-link" href="{{ url('/') }}"><i class="fas fa-desktop"></i>Dashboard
+                    <li><a class="nav-link" href="{{ route('dashboard.index') }}"><i
+                                class="fas fa-desktop"></i>Dashboard
                             2</a></li>
                 </ul>
             </li>
@@ -23,9 +24,11 @@
                 <a href="#" class="nav-link has-dropdown"><i class="fas fa-th"></i>
                     <span>Master</span></a>
                 <ul class="dropdown-menu">
-                    <li><a class="nav-link" href="{{ route('user.index') }}"><i
-                                class="fas fa-user"></i>Pengguna</a>
-                    </li>
+                    @can('user access')
+                        <li><a class="nav-link" href="{{ route('user.index') }}"><i
+                                    class="fas fa-user"></i>Pengguna</a>
+                        </li>
+                    @endcan
                     <li><a class="nav-link" href="#"><i class="fas fa-users"></i>Pelanggan</a>
                     </li>
                     <li><a class="nav-link" href="#"><i class="fas fa-box"></i>Barang</a>
@@ -71,13 +74,23 @@
                 <a href="#" class="nav-link"><i class="fas fa-file-alt"></i>
                     <span>Keuangan</span></a>
             </li>
-            <li class="menu-header">Admin</li>
-            <li><a class="nav-link" href="#"><i class="fas fa-store-alt"></i>
-                    <span>Toko</span></a></li>
-            <li><a class="nav-link" href="{{ route('role.index') }}"><i class="fas fa-user-secret"></i>
-                    <span>Hak Akses</span></a></li>
-            <li><a class="nav-link" href="{{ url('logs') }}"><i class="fas fa-file-code"></i>
-                    <span>Logs</span></a></li>
+            @can('superadmin access')
+                <li class="menu-header">Admin</li>
+                <li><a class="nav-link" href="#"><i class="fas fa-store-alt"></i>
+                        <span>Toko</span></a></li>
+                @can('role access')
+                    <li><a class="nav-link" href="{{ route('role.index') }}"><i class="fas fa-user-secret"></i>
+                            <span>Hak Akses</span></a></li>
+                @endcan
+                @can('log access')
+                    <li><a class="nav-link" href="{{ route('logs') }}"><i class="fas fa-file-code"></i>
+                            <span>Logs</span></a></li>
+                @endcan
+                @can('database access')
+                    <li><a class="nav-link" href="{{ route('database.index') }}"><i class="fas fa-database"></i>
+                            <span>Database</span></a></li>
+                @endcan
+            @endcan
         </ul>
 
         <div class="mt-4 mb-4 p-3 hide-sidebar-mini">
