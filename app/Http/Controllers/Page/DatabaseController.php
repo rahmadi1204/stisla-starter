@@ -28,7 +28,7 @@ class DatabaseController extends Controller
         }
         $databases = array_reverse($backups);
         $title = "Database";
-        return view('database.database_index', compact(['title', 'databases']));
+        return view('page.database.database_index', compact(['title', 'databases']));
     }
     public static function humanFileSize($size, $unit = "")
     {

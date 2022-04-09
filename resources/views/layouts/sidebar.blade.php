@@ -1,11 +1,11 @@
 <div class="main-sidebar">
     <aside id="sidebar-wrapper">
         <div class="sidebar-brand">
-            <a href="{{ url('/') }}">Indesign<b class="text-primary">plant</b></a>
+            <a href="{{ url('/') }}"><b class="appName"></b></a>
         </div>
         <div class="sidebar-brand sidebar-brand-sm">
             <a href="{{ url('/') }}"><img src="{{ asset('/storage/images/logo.png') }}" alt="logo"
-                    style="max-width: 50px"></a>
+                    class="appLogo" style="max-width: 50px"></a>
         </div>
         <ul class="sidebar-menu">
             <li class="menu-header">Dashboard</li>
@@ -36,8 +36,6 @@
                     <li><a class="nav-link" href="#"><i class="fas fa-truck"></i>Kurir</a>
                     </li>
                     <li><a class="nav-link" href="#"><i class="fas fa-credit-card"></i>Rekening</a></li>
-                    <li><a class="nav-link" href="#"><i class="fas fa-exclamation-circle"></i></i>Notifikasi</a>
-                    </li>
                 </ul>
             </li>
             <li class="menu-header">Transaksi</li>
@@ -76,8 +74,12 @@
             </li>
             @can('superadmin access')
                 <li class="menu-header">Admin</li>
-                <li><a class="nav-link" href="#"><i class="fas fa-store-alt"></i>
-                        <span>Toko</span></a></li>
+                <li><a class="nav-link" href="{{ route('app.index') }}"><i class="fas fa-home"></i>
+                        <span>Aplikasi</span></a></li>
+                @can('database access')
+                    <li><a class="nav-link" href="{{ route('database.index') }}"><i class="fas fa-database"></i>
+                            <span>Database</span></a></li>
+                @endcan
                 @can('role access')
                     <li><a class="nav-link" href="{{ route('role.index') }}"><i class="fas fa-user-secret"></i>
                             <span>Hak Akses</span></a></li>
@@ -86,15 +88,14 @@
                     <li><a class="nav-link" href="{{ route('logs') }}"><i class="fas fa-file-code"></i>
                             <span>Logs</span></a></li>
                 @endcan
-                @can('database access')
-                    <li><a class="nav-link" href="{{ route('database.index') }}"><i class="fas fa-database"></i>
-                            <span>Database</span></a></li>
-                @endcan
+                <li><a class="nav-link" href="{{ route('notification') }}"><i
+                            class="fas fa-exclamation-circle"></i>
+                        <span>Notifikasi</span></a></li>
             @endcan
         </ul>
 
         <div class="mt-4 mb-4 p-3 hide-sidebar-mini">
-            <a href="https://indesignplant.com" target="_blank" class="btn btn-primary btn-lg btn-block btn-icon-split">
+            <a href="#" target="_blank" class="btn btn-primary btn-lg btn-block btn-icon-split">
                 <i class="fas fa-rocket"></i> Landing Page
             </a>
         </div>

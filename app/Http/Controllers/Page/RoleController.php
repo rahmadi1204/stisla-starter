@@ -15,7 +15,7 @@ class RoleController extends Controller
         $title = "Hak Akses Pengguna";
         $role = Role::with(['permissions'])->where('name', '!=', 'developer')->get();
         $permission = Permission::where('name', '!=', 'dev access')->orderBy('name')->pluck('name', 'id');
-        return view('role.role_index', compact(['title', 'role', 'permission']));
+        return view('page.role.role_index', compact(['title', 'role', 'permission']));
     }
     public function add(Request $request)
     {

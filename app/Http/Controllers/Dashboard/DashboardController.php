@@ -9,7 +9,7 @@ class DashboardController extends Controller
     public function index()
     {
         $title = 'Dashboard';
-        return view('dashboard.dashboard', compact(
+        return view('page.dashboard.dashboard', compact(
             [
                 'title',
             ]

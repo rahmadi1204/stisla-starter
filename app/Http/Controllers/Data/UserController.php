@@ -26,7 +26,7 @@ class UserController extends Controller
         }
         $title = 'Data User';
         $role = Role::pluck('name', 'id');
-        return view('user.user_index', compact(['title', 'role']));
+        return view('page.user.user_index', compact(['title', 'role']));
     }
     public function query(Request $request)
     {

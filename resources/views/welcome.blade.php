@@ -25,7 +25,7 @@
             <div class="container mt-5">
                 <div class="page-error">
                     <div class="page-inner">
-                        <h2>Indesignplant</h2>
+                        <h2>{{ config('app.name') }}</h2>
                         <img src="{{ asset('stisla/images/404.jpg') }}" class="py-2" style="max-width: 450px"
                             alt="<a href='https://www.freepik.com/vectors/server-error'>Server error vector created by storyset - www.freepik.com</a>">
                         <div class="page-description">

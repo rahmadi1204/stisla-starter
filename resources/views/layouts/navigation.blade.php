@@ -204,6 +204,10 @@
                 </div>
             </div>
         </li>
+        <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown"
+                class="nav-link notification-toggle nav-link-lg beep" title="whatsapp"><i class="fab fa-whatsapp"></i>
+            </a>
+        </li>
         <li class="dropdown"><a href="#" data-toggle="dropdown"
                 class="nav-link dropdown-toggle nav-link-lg nav-link-user">
                 <img alt="image"

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-    <title>Indesignplant | {{ $title ?? 'Page' }}</title>
+    <title>{{ ucwords(str_replace('_', ' ', config('app.name'))) }} | {{ $title ?? 'Page' }}</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- General CSS Files -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -33,7 +33,8 @@
     <!-- Template CSS -->
     <link rel="stylesheet" href="{{ asset('/stisla') }}/assets/css/style.css">
     <link rel="stylesheet" href="{{ asset('/stisla') }}/assets/css/components.css">
-    <link rel="shortcut icon" href="{{ asset('/storage/images/logo.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('/storage/images/logo.png') }}" class="appLogo"
+        type="image/x-icon">
 </head>
 
 <body>
@@ -57,9 +58,8 @@
             </div>
             <footer class="main-footer">
                 <div class="footer-left">
-                    Copyright &copy; 2020 INDESIGN<b class="text-primary">PLANT</b>
+                    Copyright &copy; 2020 <b class="appName"></b>
                     <div class="bullet"></div>
-                    <i>Stisla Admin Template</i>
                 </div>
                 <div class="footer-right">
                     0.9.0
@@ -109,11 +109,24 @@
     <!-- Page Specific JS File -->
     <script src="{{ asset('/stisla') }}/assets/js/page/modules-datatables.js"></script>
     <script src="{{ asset('/stisla') }}/assets/js/page/bootstrap-modal.js"></script>
-    {{-- <script src="{{ asset('/stisla') }}/assets/js/page/forms-advanced-forms.js"></script> --}}
     {{-- <script src="{{ asset('/stisla') }}/assets/js/page/features-post-create.js"></script> --}}
     @include('scripts.show_image')
     @include('scripts.img_validation')
+    @include('scripts.form')
     @yield('scripts')
+    <script>
+        $.ajax({
+            type: "get",
+            url: "{{ url('/apps-show') }}",
+            success: function(response) {
+                console.log(response);
+                $(".appName").val(response['name']);
+                $(".appName").text(response['name'].toUpperCase());
+                $(".appLogo").attr('src', response['img']);
+                $(".appLogo").attr('href', response['img']);
+            }
+        });
+    </script>
     <script>
         $("#btn-logout").click(function(e) {
             e.preventDefault();
