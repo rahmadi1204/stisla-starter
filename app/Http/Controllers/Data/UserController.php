@@ -173,7 +173,9 @@ class UserController extends Controller
             $data->revokePermissionTo($data->role);
             $data->assignRole($request->role);
             if ($request->img != null) {
-                Storage::disk('local')->delete('public/images/' . $data->img);
+                if ($data->img != 'no-image.png') {
+                    Storage::disk('local')->delete('public/images/' . $data->img);
+                }
                 $file = $request->img;
                 $extension = $file->extension();
                 $img_name = 'users/' . strtolower(str_replace(' ', '_', $request->name)) . '.' . $extension;

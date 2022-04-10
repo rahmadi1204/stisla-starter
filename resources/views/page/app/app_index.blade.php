@@ -1,9 +1,9 @@
 @extends('layouts.app')
 @section('content')
     <div class="section-body">
-        <h2 class="section-title">Pengaturan Data Aplikasi</h2>
+        <h2 class="section-title">{{ $title }}</h2>
         <p class="section-lead">
-            Pengaturan data aplikasi
+            Halaman pengaturan {{ $title }}
         </p>
 
         <div id="output-status"></div>
@@ -32,7 +32,9 @@
                             <h4>Settings</h4>
                         </div>
                         <div class="card-body">
-                            <p class="text-muted">Data aplikasi secara umum</p>
+                            <p class="text-muted">Data aplikasi secara umum</p> <code>Note : bila nama diubah, aplikasi
+                                akan
+                                dimuat ulang dan anda otomatis logout</code>
                             <div class="form-group row align-items-center">
                                 <label for="name" class="form-control-label col-sm-3 text-md-right">Nama Aplikasi</label>
                                 <div class="col-sm-6 col-md-9">

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-    <title>{{ ucwords(str_replace('_', ' ', config('app.name'))) }} | {{ $title ?? 'Page' }}</title>
+    <title>{{ ucwords(str_replace('_', ' ', config('app.name'))) ?? 'App' }} | {{ $title ?? 'Page' }}</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- General CSS Files -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -124,8 +124,42 @@
                 $(".appName").text(response['name'].toUpperCase());
                 $(".appLogo").attr('src', response['img']);
                 $(".appLogo").attr('href', response['img']);
+                $(".appPhone").val(response['phone']);
+                $(".appPhone").text(response['phone']);
+                $(".appEmail").val(response['email']);
+                $(".appEmail").text(response['email']);
             }
         });
+        $.ajax({
+            type: "get",
+            url: "{{ url('/whatsapps-status') }}",
+            success: function(response) {
+                console.log(response);
+                if (response == 'on') {
+                    $(".whatsappStatus").addClass('beep');
+                    $(".whatsappStatus").attr('title', 'Whatsapp is on');
+                } else {
+                    $(".whatsappStatus").removeClass('beep');
+                    $(".whatsappStatus").attr('title', 'Whatsapp is off');
+                }
+            }
+        });
+        setInterval(() => {
+            $.ajax({
+                type: "get",
+                url: "{{ url('/whatsapps-status') }}",
+                success: function(response) {
+                    console.log(response);
+                    if (response == 'on') {
+                        $(".whatsappStatus").addClass('beep');
+                        $(".whatsappStatus").attr('title', 'Whatsapp is on');
+                    } else {
+                        $(".whatsappStatus").removeClass('beep');
+                        $(".whatsappStatus").attr('title', 'Whatsapp is off');
+                    }
+                }
+            });
+        }, 5000);
     </script>
     <script>
         $("#btn-logout").click(function(e) {
@@ -148,6 +182,16 @@
                     $("#logout").click();
                 }
             })
+        });
+        $("#btn-save").click(function(e) {
+            $(this).html('<i class="fa fa-spinner fa-spin"></i>');
+            $('.btn').addClass('disabled');
+            let form_data = $("form").serialize();
+            console.log(form_data)
+            setInterval(function() {
+                $("#btn-save").html('Save');
+                $('.btn').removeClass('disabled');
+            }, 3000);
         });
     </script>
 </body>

@@ -65,8 +65,10 @@
     <script>
         $(document).ready(function() {
             $('#datatable').DataTable({
-                "scrollX": true,
-                "scrollY": 500,
+                pageLength: 1000,
+                lengthChange: false,
+                scrollY: "500px",
+                scrollX: true,
             });
         });
     </script>

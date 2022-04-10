@@ -7,7 +7,9 @@ use App\Http\Controllers\Page\DatabaseController;
 use App\Http\Controllers\Page\LogController;
 use App\Http\Controllers\Page\NotificationController;
 use App\Http\Controllers\Page\RoleController;
+use App\Http\Controllers\Utilities\WhatsappController;
 use Illuminate\Support\Facades\Route;
+use Rap2hpoutre\LaravelLogViewer\LogViewerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +36,15 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::get('/notification', [NotificationController::class, '__invoke'])->name('notification');
+    Route::controller(WhatsappController::class)->group(function () {
+        Route::get('/whatsapps', 'index')->name('whatsapp.index');
+        Route::get('/whatsapps-qrcode', 'qrcode')->name('whatsapp.qrcode');
+        Route::get('/whatsapps-status', 'status')->name('whatsapp.status');
+        Route::get('/whatsapps-group-send', 'groupSend')->name('whatsapp.group.send');
+        Route::get('/whatsapps-group', 'group')->name('whatsapp.group');
+        Route::post('/whatsapps-send', 'send')->name('whatsapp.send');
+        Route::post('/whatsapps-update', 'update')->name('whatsapp.update');
+    });
 
     Route::controller(AppController::class)->group(function () {
         Route::get('/apps', 'index')->name('app.index');
@@ -41,7 +52,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/apps-update/{id}', 'update')->name('app.update');
     });
 
-    Route::get('/log', [\Rap2hpoutre\LaravelLogViewer\LogViewerController::class, 'index'])->name('log');
+    Route::get('/log', [LogViewerController::class, 'index'])->name('log');
     Route::get('/logs', [LogController::class, 'index'])->name('logs');
 
     Route::controller(RoleController::class)->group(function () {

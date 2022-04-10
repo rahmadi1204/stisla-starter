@@ -36,10 +36,12 @@ class AppController extends Controller
     {
         $data = App::find($id);
         if ($request->img != null) {
-            Storage::disk('local')->delete('public/images/' . $data->img);
+            if ($data->img != 'no-image.png') {
+                Storage::disk('local')->delete('public/images/' . $data->img);
+            }
             $file = $request->img;
             $extension = $file->extension();
-            $img_name = strtolower(str_replace(' ', '_', $request->name)) . '.' . $extension;
+            $img_name = 'app/' . strtolower(str_replace(' ', '_', $request->name)) . '.' . $extension;
             $formatter = new FormatterController;
             $img = $formatter->uploadImage($file);
             Storage::disk('local')->put(('public/images/') . $img_name, $img, 'public');

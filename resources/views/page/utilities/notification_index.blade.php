@@ -1,9 +1,9 @@
 @extends('layouts.app')
 @section('content')
     <div class="section-body">
-        <h2 class="section-title">Notifikasi</h2>
+        <h2 class="section-title">{{ $title }}</h2>
         <p class="section-lead">
-            Halaman pengaturan notifikasi
+            Halaman pengaturan {{ $title }}
         </p>
 
         <div class="row">
@@ -15,7 +15,7 @@
                     <div class="card-body">
                         <h4>Whatsapp</h4>
                         <p>Pengaturan nomor whatsapp, pesan notifikasi whatsapp dan lainnya</p>
-                        <a href="features-setting-detail.html" class="card-cta">Change Setting <i
+                        <a href="{{ route('whatsapp.index') }}" class="card-cta">Ubah Pengaturan <i
                                 class="fas fa-chevron-right"></i></a>
                     </div>
                 </div>
@@ -28,7 +28,7 @@
                     <div class="card-body">
                         <h4>Email</h4>
                         <p>Pengaturan alamat email, pesan notifikasi email dan lainnya</p>
-                        <a href="features-setting-detail.html" class="card-cta">Change Setting <i
+                        <a href="features-setting-detail.html" class="card-cta">Ubah Pengaturan <i
                                 class="fas fa-chevron-right"></i></a>
                     </div>
                 </div>
