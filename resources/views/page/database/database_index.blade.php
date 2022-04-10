@@ -23,43 +23,12 @@
                     <div class="card-body">
                         <div class="row my-1 mb-3">
                             <div class="col-8">
-                                <div class="btn btn-danger" id="delete-checked" title="Delete checked"><i
+                                <div class="btn btn-danger" id="btn-delete-checked" title="Delete checked"><i
                                         class="fas fa-trash-alt"></i></div>
                                 <div class="btn btn-success" id="btn-import" title="Import Sql"><i
                                         class="fas fa-file-import"></i></div>
                                 <div class="btn btn-primary" id="btn-backup" title="Backup Database"><i
                                         class="fas fa-sync-alt"></i></div>
-                                <div class="btn btn-dark disabled" id="btn-print" title="Print"><i
-                                        class="fas fa-ban"></i>
-                                </div>
-                            </div>
-                            <div class="col-4">
-                                <a href="#" class="btn btn-primary float-right disabled" id="btn-add" title="Tambah Data">
-                                    <i class="fas fa-ban"></i></a>
-                            </div>
-                        </div>
-                        <div class="row my-1">
-                            <div class="col-12 col-md-6 mb-3">
-                                <div class="input-group">
-                                    <select name="status" id="statusFilter" class="form-control" style="max-width: 300px"
-                                        disabled>
-                                        <option value="null">Semua Status</option>
-                                        <option value="1">Aktif</option>
-                                        <option value="0">Tidak Aktif</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-6 mb-3">
-                                <div class="form-group float-right">
-                                    <div class="input-group">
-                                        <input type="text" name="fromDate" class="form-control datepicker"
-                                            value="2022-01-01" title="Tanggal Awal" id="from">
-                                        <input type="text" name="toDate" class="form-control datepicker"
-                                            title="Tanggal Akhir" id="to">
-                                        <button type="submit" class="form-control" id="btn-search" title="Cari Tanggal"><i
-                                                class="fa fa-ban"></i></button>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                         <div class="table-responsive">
@@ -117,7 +86,7 @@
                                                             </div>
                                                         @else
                                                             <a href="#" class="btn mx-1 btn-danger"
-                                                                onclick="deleteConfirm('{{ $database['file_name'] }}','{{ $database['file_name'] }}')">
+                                                                onclick="deleteConfirm('{{ $database['file_name'] }}')">
                                                                 <i class="fa fa-trash-alt"></i></a>
                                                         @endif
                                                     </div>
@@ -131,7 +100,7 @@
                                     <tfoot>
                                         <tr>
                                             <th><input type="checkbox" disabled></th>
-                                            <th colspan="3" class="text-center">Database</th>
+                                            <th colspan="2" class="text-center">Database</th>
                                             <th>{{ \App\Http\Controllers\Page\DatabaseController::humanFilesize($fileSizes) }}
                                             </th>
                                             <th></th>
@@ -173,6 +142,93 @@
         $("#btn-import").click(function(e) {
             $(this).html('<i class="fa fa-spinner fa-spin"></i>');
             $('.btn').addClass('disabled');
+        });
+
+        function deleteConfirm(fileName) {
+            Swal.fire({
+                title: 'Hapus Database',
+                text: "Apakah anda yakin ingin menghapus database " + fileName + " ?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Hapus!'
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        type: "get",
+                        url: "{{ url('/databases-destroy') }}",
+                        data: {
+                            fileName: fileName
+                        },
+                        success: function(response) {
+                            console.log(response);
+                            if (response.success == true) {
+                                Swal.fire(
+                                    'Berhasil!',
+                                    'Database berhasil dihapus.',
+                                    'success'
+                                ).then(function() {
+                                    location.reload();
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    text: 'Something went wrong!',
+                                    footer: '<a href>' + response.message + '</a>'
+                                })
+                            }
+                        }
+                    });
+                }
+            })
+        }
+        $("#btn-delete-checked").click(function(e) {
+            e.preventDefault();
+            let filename = [];
+            $('input[name="checkbox[]"]:checked').each(function() {
+                filename.push($(this).val());
+            });
+            console.log(filename);
+            Swal.fire({
+                title: 'Hapus Database',
+                text: "Apakah anda yakin ingin menghapus database " + filename + " ?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Hapus!'
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        type: "get",
+                        url: "{{ url('/databases-destroy-multi') }}",
+                        data: {
+                            fileName: filename
+                        },
+                        success: function(response) {
+                            console.log(response);
+                            if (response.success == true) {
+                                Swal.fire(
+                                    'Berhasil!',
+                                    'Database berhasil dihapus.',
+                                    'success'
+                                ).then(function() {
+                                    location.reload();
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Oops...',
+                                    text: 'Something went wrong!',
+                                    footer: '<a href>' + response.message + '</a>'
+                                })
+                            }
+                        }
+                    });
+                }
+            })
         });
     </script>
 @endsection

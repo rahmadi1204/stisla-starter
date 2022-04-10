@@ -71,7 +71,7 @@ class UserController extends Controller
         $data = $this->query($request);
         return Datatables::of($data)
             ->editColumn('checkbox', function ($item) {
-                return ' <input type="checkbox" name="checkbox[]" class="pr-1 input-checkbox" value="' . $item->id . '">';
+                return ' <input type="checkbox" name="checkbox[]" class="pr-1 input-checkbox" value="' . $item->id . '" data-name="' . $item->name . '">';
             })
             ->addIndexColumn()
             ->editColumn('img', function ($item) {

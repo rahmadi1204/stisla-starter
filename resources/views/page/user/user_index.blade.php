@@ -21,46 +21,58 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="row my-1 mb-3">
-                            <div class="col-8">
-                                <div class="btn btn-danger" id="delete-checked" title="Delete checked"><i
-                                        class="fas fa-trash-alt"></i></div>
-                                <div class="btn btn-success" id="btn-import" title="Import Excel"><i
-                                        class="fas fa-file-import"></i></div>
-                                <div class="btn btn-primary" id="btn-export" title="Export Excel"><i
-                                        class="fas fa-file-export"></i></div>
-                                <div class="btn btn-dark" id="btn-print" title="Print"><i class="fas fa-print"></i>
+                        <div class="header-card">
+                            <div class="row my-1 mb-3">
+                                <div class="col-12">
+                                    <div class="dropdown d-inline mr-2">
+                                        <button class="btn btn-primary dropdown-toggle" type="button"
+                                            id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false">
+                                            Data Terpilih
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item has-icon" href="#" id="btn-delete-checked"><i
+                                                    class="fa fa-trash"></i>Hapus Data
+                                                Terpilih</a>
+                                        </div>
+                                    </div>
+                                    <div class="btn btn-success" id="btn-import" title="Import Excel"><i
+                                            class="fas fa-file-import"></i></div>
+                                    <div class="btn btn-primary" id="btn-export" title="Export Excel"><i
+                                            class="fas fa-file-export"></i></div>
+                                    <div class="btn btn-dark" id="btn-print" title="Print"><i class="fas fa-print"></i>
+                                    </div>
+                                    <a href="#" class="btn btn-primary float-right" data-toggle="modal" id="btn-add"
+                                        data-target="#modal-edit" title="Tambah Data">
+                                        <i class="fas fa-plus"></i></a>
                                 </div>
                             </div>
-                            <div class="col-4">
-                                <a href="#" class="btn btn-primary float-right" data-toggle="modal" id="btn-add"
-                                    data-target="#modal-edit" title="Tambah Data">
-                                    <i class="fas fa-plus"></i></a>
-                            </div>
-                        </div>
-                        <div class="row my-1">
-                            <div class="col-12 col-md-6 mb-3">
-                                <div class="input-group">
-                                    <select name="status" id="statusFilter" class="form-control" style="max-width: 300px">
-                                        <option value="null">Semua Status</option>
-                                        <option value="1">Aktif</option>
-                                        <option value="0">Tidak Aktif</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-12 col-md-6 mb-3">
-                                <div class="form-group float-right">
+                            <div class="row my-1">
+                                <div class="col-12 col-md-6 mb-3">
                                     <div class="input-group">
-                                        <input type="text" name="fromDate" class="form-control datepicker"
-                                            value="2022-01-01" title="Tanggal Awal" id="from">
-                                        <input type="text" name="toDate" class="form-control datepicker"
-                                            title="Tanggal Akhir" id="to">
-                                        <button type="submit" class="form-control" id="btn-search" title="Cari Tanggal"><i
-                                                class="fa fa-search"></i></button>
+                                        <select name="status" id="statusFilter" class="form-control"
+                                            style="max-width: 300px">
+                                            <option value="null">Semua Status</option>
+                                            <option value="1">Aktif</option>
+                                            <option value="0">Tidak Aktif</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 mb-3">
+                                    <div class="form-group float-right">
+                                        <div class="input-group">
+                                            <input type="text" name="fromDate" class="form-control datepicker"
+                                                value="2022-01-01" title="Tanggal Awal" id="from">
+                                            <input type="text" name="toDate" class="form-control datepicker"
+                                                title="Tanggal Akhir" id="to">
+                                            <button type="submit" class="form-control" id="btn-search"
+                                                title="Cari Tanggal"><i class="fa fa-search"></i></button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+
                         <div class="table-responsive">
                             <form action="#" id="form-multiple">
                                 <table class="table table-striped" id="datatable" style="width:100%">
@@ -366,16 +378,20 @@
 
                 })
             }
-            $("#delete-checked").click(function() {
+            $("#btn-delete-checked").click(function() {
                 val = [];
                 var checkbox = $("input[name^='checkbox']:checked:enabled", '#form-multiple').each(
                     function(i) {
                         val[i] = $(this).val();
                     });
+                let name = [];
+                $('input[name="checkbox[]"]:checked').each(function() {
+                    name.push($(this).data('name'));
+                });
                 console.log(val);
                 Swal.fire({
                     title: 'Are you sure?',
-                    text: "Data Checklist Akan Dihapus!",
+                    text: "Apakah anda yakin ingin menghapus data " + name + " ?",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#d33',
@@ -419,14 +435,14 @@
                                         icon: 'success',
                                         title: 'Data ' + name +
                                             ' Berhasil Dihapus'
-                                    })
-
-                                    $('#datatable').DataTable().destroy();
-                                    tabledata(status, from, to);
+                                    }).then(function() {
+                                        $('#datatable').DataTable().destroy();
+                                        tabledata(status, from, to);
+                                    });
                                 }
                                 $(".btn").removeClass('disabled');
-                                $("#delete-checked").html(
-                                    '<i class="fa fa-trash-alt"></i>');
+                                $("#btn-delete-checked").html(
+                                    'Hapus Data Terpilih');
                             }
 
                         });
