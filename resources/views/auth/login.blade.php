@@ -98,7 +98,8 @@
                                 @elseif (now()->format('His') > '180000')
                                     <h1 class="mb-2 display-4 font-weight-bold">Selamat Malam</h1>
                                 @endif
-                                <h5 class="font-weight-normal text-muted-transparent">Sarangan, Magetan Jawa Timur
+                                <h5 class="font-weight-normal text-muted-transparent">Telaga Sarangan Magetan, Jawa
+                                    Timur
                                     Indonesia</h5>
                             </div>
                             Photo by <a

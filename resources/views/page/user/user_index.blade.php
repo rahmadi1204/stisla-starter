@@ -23,26 +23,34 @@
                     <div class="card-body">
                         <div class="header-card">
                             <div class="row my-1 mb-3">
-                                <div class="col-12">
+                                <div class="col-12" style="min-width: 300px">
                                     <div class="dropdown d-inline mr-2">
-                                        <button class="btn btn-primary dropdown-toggle" type="button"
-                                            id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false">
+                                        <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             Data Terpilih
                                         </button>
                                         <div class="dropdown-menu">
                                             <a class="dropdown-item has-icon" href="#" id="btn-delete-checked"><i
-                                                    class="fa fa-trash"></i>Hapus Data
+                                                    class="fas fa-trash"></i>Hapus Data
                                                 Terpilih</a>
                                         </div>
                                     </div>
-                                    <div class="btn btn-success" id="btn-import" title="Import Excel"><i
-                                            class="fas fa-file-import"></i></div>
-                                    <div class="btn btn-primary" id="btn-export" title="Export Excel"><i
-                                            class="fas fa-file-export"></i></div>
-                                    <div class="btn btn-dark" id="btn-print" title="Print"><i class="fas fa-print"></i>
+                                    <div class="dropdown d-inline mr-2">
+                                        <button class="btn btn-primary dropdown-toggle" type="button"
+                                            id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                            aria-expanded="false">
+                                            Menu
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item has-icon" href="#" id="btn-import"><i
+                                                    class="fas fa-file-import"></i></i>Import Data</a>
+                                            <a class="dropdown-item has-icon" href="#" id="btn-export"><i
+                                                    class="fas fa-file-export"></i></i>Export Data</a>
+                                            <a class="dropdown-item has-icon" href="#" id="btn-print"><i
+                                                    class="fas fa-print"></i></i>Print Data</a>
+                                        </div>
                                     </div>
-                                    <a href="#" class="btn btn-primary float-right" data-toggle="modal" id="btn-add"
+                                    <a href="#" class="btn btn-success float-right" data-toggle="modal" id="btn-add"
                                         data-target="#modal-edit" title="Tambah Data">
                                         <i class="fas fa-plus"></i></a>
                                 </div>
@@ -368,9 +376,10 @@
                                         'Deleted!',
                                         'Your file has been deleted.',
                                         'success'
-                                    )
-                                    $('#datatable').DataTable().destroy();
-                                    tabledata(status, from, to);
+                                    ).then(function() {
+                                        $('#datatable').DataTable().destroy();
+                                        tabledata(status, from, to);
+                                    })
                                 }
                             }
                         })
@@ -416,29 +425,14 @@
                                         'error'
                                     )
                                 } else {
-                                    const Toast = Swal.mixin({
-                                        toast: true,
-                                        position: 'top-end',
-                                        showConfirmButton: false,
-                                        timer: 3000,
-                                        timerProgressBar: true,
-                                        didOpen: (toast) => {
-                                            toast.addEventListener(
-                                                'mouseenter', Swal
-                                                .stopTimer)
-                                            toast.addEventListener(
-                                                'mouseleave', Swal
-                                                .resumeTimer)
-                                        }
-                                    });
-                                    Toast.fire({
-                                        icon: 'success',
-                                        title: 'Data ' + name +
-                                            ' Berhasil Dihapus'
-                                    }).then(function() {
+                                    Swal.fire(
+                                        'Deleted!',
+                                        'Your file has been deleted.',
+                                        'success'
+                                    ).then(function() {
                                         $('#datatable').DataTable().destroy();
                                         tabledata(status, from, to);
-                                    });
+                                    })
                                 }
                                 $(".btn").removeClass('disabled');
                                 $("#btn-delete-checked").html(
@@ -459,7 +453,7 @@
                     'error'
                 )
             }
-            $("#delete-checked").click(function() {
+            $("#btn-delete-checked").click(function() {
                 Swal.fire(
                     'Waduh!',
                     'Anda Tidak Memiliki Akses',
