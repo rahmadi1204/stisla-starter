@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\ActivityLogController;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Providers\RouteServiceProvider;
@@ -31,7 +32,14 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
-
+        $activity = new ActivityLogController;
+        $log = [
+            'log_type' => 'Login',
+            'log_category' => 'App',
+            'log_desc' => 'Login berhasil',
+            'status' => 'Success',
+        ];
+        $activity->store($log);
         return redirect()->intended(RouteServiceProvider::HOME);
     }
 
@@ -43,6 +51,14 @@ class AuthenticatedSessionController extends Controller
      */
     public function destroy(Request $request)
     {
+        $activity = new ActivityLogController;
+        $log = [
+            'log_type' => 'Logout',
+            'log_category' => 'App',
+            'log_desc' => 'Logout berhasil',
+            'status' => 'Success',
+        ];
+        $activity->store($log);
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();

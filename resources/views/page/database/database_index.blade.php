@@ -71,7 +71,7 @@
                                                 <input type="checkbox" id="checkAll">
                                             </th>
                                             <th>No</th>
-                                            <th>Avatar</th>
+                                            {{-- <th>Avatar</th> --}}
                                             <th>File Name</th>
                                             <th>File Size</th>
                                             <th>Created Date</th>
@@ -96,7 +96,7 @@
                                                     @endif
                                                 </td>
                                                 <td>{{ $no++ }}</td>
-                                                <td></td>
+                                                {{-- <td></td> --}}
                                                 <td>{{ $database['file_name'] }}</td>
                                                 <td>{{ \App\Http\Controllers\Page\DatabaseController::humanFilesize($database['file_size']) }}
                                                 </td>
@@ -156,8 +156,19 @@
             $('input:checkbox').not(this).prop('checked', this.checked);
         });
         $("#btn-backup").click(function(e) {
+            console.log('backup proccess');
             $(this).html('<i class="fa fa-spinner fa-spin"></i>');
             $('.btn').addClass('disabled');
+            location.href = "{{ route('database.backup') }}";
+            // $.ajax({
+            //     type: "get",
+            //     url: "{{ url('/databases-backup') }}",
+            //     success: function(response) {
+            //         console.log(response);
+            //         $("#btn-backup").html('<i class="fa fa-sync-alt"></i>');
+            //         $('.btn').removeClass('disabled');
+            //     }
+            // });
         });
         $("#btn-import").click(function(e) {
             $(this).html('<i class="fa fa-spinner fa-spin"></i>');

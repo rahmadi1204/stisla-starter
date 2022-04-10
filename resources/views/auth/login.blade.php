@@ -4,7 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-    <title>Login &mdash; Stisla</title>
+    <title>{{ ucwords(str_replace('_', ' ', config('app.name'))) ?? 'App' }} | {{ $title ?? 'Login' }}</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="shortcut icon" href="{{ asset('/storage/images/logo.png') }}" class="appLogo"
+        type="image/x-icon">
 
     <!-- General CSS Files -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
@@ -29,9 +32,10 @@
                         <img src="{{ asset('/storage/images/logo.png') }}" alt="logo" width="80"
                             class="shadow-light rounded-circle mb-5 mt-2">
                         <h4 class="text-dark font-weight-normal">Welcome to <span
-                                class="font-weight-bold">{{ config('app.name') }}</span></h4>
+                                class="font-weight-bold">{{ str_replace('_', ' ', config('app.name')) }}</span></h4>
                         <form method="POST" action="{{ url('/login') }}" class="needs-validation" novalidate="">
                             @csrf
+                            @include('components.alert')
                             <div class="form-group">
                                 <label for="email">Email</label>
                                 <input id="email" type="email" class="form-control" name="email" tabindex="1" required
@@ -81,16 +85,28 @@
                     </div>
                 </div>
                 <div class="col-lg-8 col-12 order-lg-2 order-1 min-vh-100 background-walk-y position-relative overlay-gradient-bottom"
-                    data-background="{{ asset('/stisla') }}/assets/img/unsplash/login-bg.jpg">
+                    data-background="{{ asset('/stisla') }}/images/login-bg.jpg">
                     <div class="absolute-bottom-left index-2">
                         <div class="text-light p-5 pb-2">
                             <div class="mb-5 pb-3">
-                                <h1 class="mb-2 display-4 font-weight-bold">Good Morning</h1>
-                                <h5 class="font-weight-normal text-muted-transparent">Bali, Indonesia</h5>
+                                @if (now()->format('His') < '120000')
+                                    <h1 class="mb-2 display-4 font-weight-bold">Selamat Pagi</h1>
+                                @elseif (now()->format('His') < '150000')
+                                    <h1 class="mb-2 display-4 font-weight-bold">Selamat Siang</h1>
+                                @elseif (now()->format('His') < '180000')
+                                    <h1 class="mb-2 display-4 font-weight-bold">Selamat Sore</h1>
+                                @elseif (now()->format('His') > '180000')
+                                    <h1 class="mb-2 display-4 font-weight-bold">Selamat Malam</h1>
+                                @endif
+                                <h5 class="font-weight-normal text-muted-transparent">Sarangan, Magetan Jawa Timur
+                                    Indonesia</h5>
                             </div>
-                            Photo by <a class="text-light bb" target="_blank"
-                                href="https://unsplash.com/photos/a8lTjWJJgLA">Justin Kauffman</a> on <a
-                                class="text-light bb" target="_blank" href="https://unsplash.com">Unsplash</a>
+                            Photo by <a
+                                href="https://unsplash.com/@ilhamabitama?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Ilham
+                                Abitama</a> on <a
+                                href="https://unsplash.com/photos/SXSU5nW8hz0?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+
+
                         </div>
                     </div>
                 </div>

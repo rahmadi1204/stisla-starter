@@ -66,7 +66,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/databases-import', 'import')->name('database.import');
         Route::get('/databases-download/{id}', 'download')->name('database.download');
         Route::get('/databases-backup', 'backup')->name('database.backup');
-        Route::get('/databases-destroy', 'destroy')->name('database.backup');
+        Route::get('/databases-destroy', 'destroy')->name('database.destroy');
     });
 
     Route::controller(DashboardController::class)->group(function () {
