@@ -32,14 +32,14 @@ class WhatsappController extends Controller
     {
         $data = Whatsapp::first();
         try {
-            // $data->server = $request->server;
+            $data->server = strtolower($request->url);
 
             $formatter = new FormatterController;
             $data->phone = $formatter->phoneFormat($request->whatsapp);
             $data->save();
             return response()->json([
                 'success' => true,
-                'data' => $request,
+                'data' => $request->url,
             ]);
         } catch (\Throwable $th) {
             Log::error("message: " . $th->getMessage() . " line: " . $th->getLine());
@@ -107,14 +107,14 @@ class WhatsappController extends Controller
         }
         return response()->json($status);
     }
-    public function groupSend()
+    public function groupSend(Request $request)
     {
         $formatter = new FormatterController;
         $receiver = $formatter->phoneFormat($request->phone);
         $data = Whatsapp::first();
         $id = $data->phone;
         try {
-            $response = Http::post($data->server . '/chat/send?id=' . $id, [
+            $response = Http::post($data->server . '/group/send?id=' . $id, [
                 'receiver' => $receiver,
                 'message' => $request->message,
             ]);

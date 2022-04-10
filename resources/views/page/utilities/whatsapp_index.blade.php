@@ -69,7 +69,7 @@
                                                     <p><i class="fa fa-window-close"></i> Data Gagal Diupdate</p>
                                                 </div>
                                             </div>
-                                            {{-- <div class="form-group row align-items-center">
+                                            <div class="form-group row align-items-center">
                                                 <label for="phone" class="form-control-label col-sm-3 text-md-right">
                                                     Server</label>
                                                 <div class="col-sm-6 col-md-9">
@@ -81,7 +81,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div> --}}
+                                            </div>
                                             <div class="form-group row align-items-center">
                                                 <label for="whatsapp" class="form-control-label col-sm-3 text-md-right">
                                                     Whatsapp</label>
@@ -173,15 +173,15 @@
                 <div class="card-header">
                     <h4>Daftar Grup Whatsapp</h4>
                 </div>
-                <div class="card-body">
+                <div class="card-body" style="overflow-y: scroll;height:266px">
                     <ul class="list-unstyled list-unstyled-border" id="group-list">
 
                     </ul>
-                    <div class="text-center pt-1 pb-1">
+                    {{-- <div class="text-center pt-1 pb-1">
                         <a href="#" class="btn btn-primary btn-lg btn-round">
                             View All
                         </a>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
         </div>
@@ -214,16 +214,16 @@
                     <div class="card-body pb-0">
                         <div class="form-group">
                             <label>Nama Group</label>
-                            <input type="text" name="group_name" class="form-control " id="group-name" required>
+                            <input type="text" name="group_name" class="form-control " id="group-name" readonly required>
                             <input type="hidden" name="group_id" class="form-control " id="group-id" required>
                         </div>
                         <div class="form-group">
                             <label>Pesan</label>
-                            <textarea class="form-control" name="message" id="message-group"></textarea>
+                            <textarea class="form-control" name="message" id="group-message"></textarea>
                         </div>
                     </div>
                     <div class="card-footer pt-0">
-                        <button class="btn btn-primary" id="btn-send">Kirim</button>
+                        <button class="btn btn-primary" id="btn-group-send">Kirim</button>
                     </div>
                 </div>
             </form>
@@ -325,13 +325,43 @@
                 success: function(response) {
                     console.log(response);
                     if (response.success == true) {
-                        $('#alert-success').removeClass('d-none');
-                        $('#alert-danger').addClass('d-none');
+                        $('.pesan #alert-success').removeClass('d-none');
+                        $('.pesan #alert-danger').addClass('d-none');
                     } else {
-                        $('#alert-success').addClass('d-none');
-                        $('#alert-danger').removeClass('d-none');
+                        $('.pesan #alert-success').addClass('d-none');
+                        $('.pesan #alert-danger').removeClass('d-none');
                     }
                     $("#btn-send").html('Kirim');
+                    $('.btn').removeClass('disabled');
+                }
+            });
+        });
+        $("#btn-group-send").click(function(e) {
+            $(this).html('<i class="fa fa-spinner fa-spin"></i>');
+            $('.btn').addClass('disabled');
+            let phone = $('#group-id').val();
+            let message = $('#group-message').val();
+            console.log(phone);
+            console.log(message);
+            e.preventDefault();
+            $.ajax({
+                type: "post",
+                url: "{{ url('/whatsapps-group-send') }}",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    phone: phone,
+                    message: message
+                },
+                success: function(response) {
+                    console.log(response);
+                    if (response.success == true) {
+                        $('.pesan #alert-success').removeClass('d-none');
+                        $('.pesan #alert-danger').addClass('d-none');
+                    } else {
+                        $('.pesan #alert-success').addClass('d-none');
+                        $('.pesan #alert-danger').removeClass('d-none');
+                    }
+                    $("#btn-group-send").html('Kirim');
                     $('.btn').removeClass('disabled');
                 }
             });
@@ -349,7 +379,7 @@
                 url: "{{ url('/whatsapps-update') }}",
                 data: {
                     _token: "{{ csrf_token() }}",
-                    server: server,
+                    url: server,
                     whatsapp: whatsapp
                 },
                 dataType: "json",
@@ -371,6 +401,29 @@
                             console.log(response);
                             $('#qrcode').attr('src', response.data);
                             $('#text').text(response.connected);
+                        }
+                    });
+                    $.ajax({
+                        type: "get",
+                        url: "{{ url('/whatsapps-group') }}",
+                        success: function(response) {
+                            $.each(response, function(indexInArray, data) {
+                                console.log(data.name);
+                                $("#group-list").append(
+                                    `
+                    <li class="media">
+                                <img class="mr-3 rounded-circle" width="50"
+                                    src="{{ asset('/stisla') }}/assets/img/avatar/avatar-1.png" alt="avatar">
+                                <div class="media-body">
+                                    <div class="float-right btn btn-success" title="Kirim Pesan" onclick="groupChat('${data.id}', '${data.name}')">
+                                        <i class="fa fa-comment"></i>
+                                    </div>
+                                    <div class="media-title">` + data.name + `</div>
+                                    <span class="text-small text-muted">` + data.id + `</span>
+                                </div>
+                            </li>
+                    `);
+                            });
                         }
                     });
                 }

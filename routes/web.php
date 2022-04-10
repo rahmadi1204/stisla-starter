@@ -40,8 +40,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/whatsapps', 'index')->name('whatsapp.index');
         Route::get('/whatsapps-qrcode', 'qrcode')->name('whatsapp.qrcode');
         Route::get('/whatsapps-status', 'status')->name('whatsapp.status');
-        Route::get('/whatsapps-group-send', 'groupSend')->name('whatsapp.group.send');
         Route::get('/whatsapps-group', 'group')->name('whatsapp.group');
+        Route::post('/whatsapps-group-send', 'groupSend')->name('whatsapp.group.send');
         Route::post('/whatsapps-send', 'send')->name('whatsapp.send');
         Route::post('/whatsapps-update', 'update')->name('whatsapp.update');
     });
